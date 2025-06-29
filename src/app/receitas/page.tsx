@@ -1,12 +1,11 @@
 "use client";
 
-import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import RecipeCard from "@/components/RecipeCard";
-import RecipeFormModal from "@/components/RecipeFormModal";
+
 import { recipes as initialRecipes } from "@/lib/data";
 import type { Recipe } from "@/lib/data";
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { use, useState } from "react";
 
 export default function ReceitasPage() {
   const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
@@ -96,20 +95,7 @@ export default function ReceitasPage() {
         </div>
       </div>
 
-      <RecipeFormModal
-        isOpen={isRecipeModalOpen}
-        onClose={handleCloseModal}
-        onSave={handleSaveRecipe}
-        mode={modalMode}
-        recipe={selectedRecipe}
-      />
 
-      <DeleteConfirmationModal
-        isOpen={isDeleteConfirmationModalOpen}
-        onClose={() => setIsDeleteConfirmationModalOpen(false)}
-        onConfirm={handleDeleteRecipe}
-        recipe={selectedRecipe}
-      />
     </main>
   );
 }
