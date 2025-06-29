@@ -55,9 +55,9 @@ export default function ReceitaPage({ params }: RecipePageProps) {
             </div>
 
             {/* colunas */}
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2 ">
               {/* coluna dos ingredientes */}
-              <div>
+              <div className="">
                 <h2 className="text-xl font-bold mb-4">Ingredientes</h2>
                 <ul className="list-disc list-inside space-y-2">
                   {recipe.ingredients.map((ingredient) => (
