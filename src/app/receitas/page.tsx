@@ -1,11 +1,11 @@
 "use client";
 
 import RecipeCard from "@/components/RecipeCard";
-
+import RecipeFormModal from "@/components/RecipeFormModal";
 import { recipes as initialRecipes } from "@/lib/data";
 import type { Recipe } from "@/lib/data";
 import { Plus } from "lucide-react";
-import { use, useState } from "react";
+import { useState } from "react";
 
 export default function ReceitasPage() {
   const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
@@ -83,7 +83,7 @@ export default function ReceitasPage() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+        <div className="grid grid-cols-3 gap-8 mt-8">
           {recipes.map((recipe) => (
             <RecipeCard
               key={recipe.id}
@@ -95,6 +95,10 @@ export default function ReceitasPage() {
         </div>
       </div>
 
+      <RecipeFormModal
+        isOpen={isRecipeModalOpen}
+        onClose={handleCloseModal}
+      />
 
     </main>
   );

@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { recipes } from "@/lib/data";
 import RecipeCard from "@/components/RecipeCard";
+import RecipeFormModal from "@/components/RecipeFormModal";
 
 export default function Home() {
   const featuredRecipes = recipes.slice(0, 3);
