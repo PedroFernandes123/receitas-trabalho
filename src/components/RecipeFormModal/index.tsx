@@ -1,19 +1,107 @@
-
-import { Dialog, DialogHeader ,DialogTitle, DialogContent } from "../ui/dialog";
+import { useFieldArray, useForm } from "react-hook-form";
+import { Dialog, DialogHeader, DialogTitle, DialogContent } from "../ui/dialog";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  RecipeFormData,
+  recipeSchema,
+} from "@/lib/formValidationSchemas/recipeSchema";
+import { Recipe } from "@/lib/data";
+import { useEffect } from "react";
 
 interface RecipeFormModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (recipe: Omit<Recipe, "id"> | Recipe) => void;
+  mode: "create" | "edit";
+  recipe?: Recipe;
 }
 
-export default function RecipeFormModal({isOpen, onClose}: RecipeFormModalProps) {
+const DEFAULT_VALUES: RecipeFormData = {
+  title: "",
+  category: "",
+  description: "",
+  image: "",
+  prepTime: "",
+  cookTime: "",
+  servings: 1,
+  ingredients: [{ value: "" }],
+  instructions: [{ value: "" }],
+};
+
+export default function RecipeFormModal({
+  isOpen,
+  onClose,
+  onSave,
+  mode,
+  recipe,
+}: RecipeFormModalProps) {const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<RecipeFormData>({
+    resolver: yupResolver(recipeSchema),
+    mode: "onSubmit",
+    defaultValues: DEFAULT_VALUES,
+  });
+
+  const {
+    fields: ingredientFields,
+    append: appendIngredients,
+    remove: removeIngredients,
+  } = useFieldArray({
+    control,
+    name: "ingredients",
+  });
+
+  const {
+    fields: instructionFields,
+    append: appendInstructions,
+    remove: removeInstructions,
+  } = useFieldArray({
+    control,
+    name: "instructions",
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      if (mode === "edit" && recipe) {
+        reset({
+          ...recipe,
+          ingredients: recipe.ingredients.map((ing) => ({ value: ing })),
+          instructions: recipe.instructions.map((inst) => ({ value: inst })),
+        });
+      } else {
+        reset(DEFAULT_VALUES);
+      }
+    }
+  }, [mode, isOpen, recipe, reset]);
+
+  const onSubmit = (data: RecipeFormData) => {
+    const recipeData = {
+      ...data,
+      ingredients: data.ingredients.map((ingredient) => ingredient.value),
+      instructions: data.instructions.map((instruction) => instruction.value),
+    };
+
+    console.log(recipeData);
+    onSave(
+      mode === "edit" && recipe ? { ...recipeData, id: recipe.id } : recipeData
+    );
+    reset();
+    onClose();
+  };
+
+  const inputStyle = "p-2 border border-zinc-200 rounded-md flex-grow w-full";
+
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="bg-white ">
                 <DialogHeader>
                     <DialogTitle>Nova receita</DialogTitle>
                 </DialogHeader>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full">
                     <div className="grid grid-cols-2 gap-2">
                     {/* Titulo */}
                         <div className="flex flex-col gap-1">
