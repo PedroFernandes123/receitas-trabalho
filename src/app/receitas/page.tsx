@@ -57,15 +57,6 @@ export default function ReceitasPage() {
     setIsDeleteConfirmationModalOpen(true);
   };
 
-  const handleCreateRecipe = (recipeData: Omit<Recipe, "id">) => {
-    const newRecipe: Recipe = {
-      ...recipeData,
-      id: (recipes.length + 1).toString(),
-    };
-    setRecipes((prev) => [...prev, newRecipe]);
-    setIsRecipeModalOpen(false);
-  }
-
   const handleDeleteRecipe = () => {
     if (selectedRecipe) {
       setRecipes((prev) =>
@@ -106,8 +97,10 @@ export default function ReceitasPage() {
 
       <RecipeFormModal
         isOpen={isRecipeModalOpen}
-        onClose={() => setIsRecipeModalOpen(false)}
-        onSave={handleCreateRecipe}
+        onClose={handleCloseModal}
+        onSave={handleSaveRecipe}
+        mode={modalMode}
+        recipe={selectedRecipe}
       />
 
     </main>
