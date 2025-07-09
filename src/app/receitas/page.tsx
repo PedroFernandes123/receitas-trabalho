@@ -1,5 +1,6 @@
 "use client";
 
+import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import RecipeCard from "@/components/RecipeCard";
 import RecipeFormModal from "@/components/RecipeFormModal";
 import { recipes as initialRecipes } from "@/lib/data";
@@ -98,8 +99,17 @@ export default function ReceitasPage() {
       <RecipeFormModal
         isOpen={isRecipeModalOpen}
         onClose={handleCloseModal}
+        onSave={handleSaveRecipe}
+        mode={modalMode}
+        recipe={selectedRecipe}
       />
 
+      <DeleteConfirmationModal
+        isOpen={isDeleteConfirmationModalOpen}
+        onClose={() => setIsDeleteConfirmationModalOpen(false)}
+        onConfirm={handleDeleteRecipe}
+        recipe={selectedRecipe}
+      />
     </main>
   );
 }
