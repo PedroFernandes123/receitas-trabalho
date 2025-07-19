@@ -1,6 +1,6 @@
 import { Recipe } from "@/lib/data";
 import { Edit, Trash2 } from "lucide-react";
-import Image from "next/image";
+import Image from "next/Image";
 import Link from "next/link";
 import React from "react";
 
