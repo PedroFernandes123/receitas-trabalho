@@ -1,5 +1,6 @@
 "use client";
 
+
 import { RecipeCard } from "@/components/RecipeCard";
 import { Recipe } from "@/lib/data";
 import { Plus } from "lucide-react";
@@ -8,6 +9,7 @@ import { useEffect, useState } from "react";
 import DeleteConfirmationModal from "@/components/DeleteConfirmation";
 import api from "@/lib/api";
 import { toast } from "sonner";
+
 export default function ReceitasPage() {
   const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -153,8 +155,10 @@ export default function ReceitasPage() {
           />
         </div>
 
+
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-8">
           {filteredRecipes.map((recipe) => (
+
             <RecipeCard
               key={recipe.id}
               recipe={recipe}
@@ -164,6 +168,7 @@ export default function ReceitasPage() {
           ))}
         </div>
       </div>
+
       <RecipeFormModal
         isOpen={isRecipeModalOpen}
         onClose={handleCloseModal}
@@ -171,6 +176,7 @@ export default function ReceitasPage() {
         mode={modalMode}
         recipe={selectedRecipe}
       />
+
       <DeleteConfirmationModal
         isOpen={isDeleteConfirmationModalOpen}
         onClose={() => setIsDeleteConfirmationModalOpen(false)}
